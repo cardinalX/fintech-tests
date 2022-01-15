@@ -1,0 +1,21 @@
+{
+  "name": "fintech-tests",
+  "version": "1.0.0",
+  "description": "Тестовое задание для покрытия страницы https://fintech.yandex.ru/ тестами Playwright",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cardinalX/fintech-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cardinalX/fintech-tests/issues"
+  },
+  "homepage": "https://github.com/cardinalX/fintech-tests#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.17.2"
+  }
+}
