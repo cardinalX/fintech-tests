@@ -5,20 +5,19 @@ import { Locator, Page } from '@playwright/test';
 export class MainPage extends BasePage {
   readonly PATHNAME: string = '';
 
-
   /**
    * @summary Кнопка меню с вакансиями
    */
-   readonly buttonVacanciesMenu: Locator;
+  readonly buttonVacanciesMenu: Locator;
   /**
    * @summary Элементы вакансий(текстовые) в меню
    */
-   readonly vacanciesMenuItem: Locator;
-   readonly vacanciesMenu: Locator;
+  readonly vacanciesMenuItem: Locator;
+  readonly vacanciesMenu: Locator;
   /**
    * @summary кнопка закрытия меню с вакансиями
    */
-    readonly buttonCloseMenu: Locator;
+  readonly buttonCloseMenu: Locator;
 
   constructor(page: Page) {
     super(page);

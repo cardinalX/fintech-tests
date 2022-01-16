@@ -1,5 +1,4 @@
-import { test, expect, Page, Response } from "@playwright/test";
-import { CommonLocators } from "../locators";
+import { test, expect } from "@playwright/test";
 import { MainPage } from "../pages/main-page";
 
 test.describe("Меню с вакансиями @menu", async () => {
@@ -12,14 +11,6 @@ test.describe("Меню с вакансиями @menu", async () => {
       await mainPage.goto();
     });
 
-    await test.step(
-      "Проверка, что элементов меню не видно, до нажатия кнопки открытия меню",
-      async () => {
-        await expect(mainPage.vacanciesMenu).toBeHidden();
-        await expect(mainPage.vacanciesMenuItem.last()).toBeHidden();
-      }
-    );
-
     await test.step("Открытие меню с вакансиями", async () => {
       await mainPage.buttonVacanciesMenu.click();
     });
@@ -27,7 +18,7 @@ test.describe("Меню с вакансиями @menu", async () => {
     await test.step(
       "Проверка, что появились элементы меню(вакансии)",
       async () => {
-        // await expect(mainPage.vacanciesMenu).toBeVisible();
+        await expect(mainPage.vacanciesMenu).toBeVisible();
         await expect(mainPage.vacanciesMenuItem.first()).toBeVisible();
         await expect(mainPage.vacanciesMenuItem.last()).toBeVisible();
         expect(await mainPage.vacanciesMenuItem.count()).toBeGreaterThanOrEqual(
@@ -50,4 +41,4 @@ test.describe("Меню с вакансиями @menu", async () => {
   });
 });
 
-// Перейти на страницу вакансии и сразу нажать на ссылку в шапке, откроется битая страница, нужно проверять URL открытой страницы
+//TODO: BUG: Перейти на страницу вакансии и сразу нажать на ссылку в шапке, откроется битая страница, нужно проверять URL открытой страницы
