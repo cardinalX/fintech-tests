@@ -27,12 +27,25 @@ export abstract class BasePage {
    * @summary Ссылка-Лого в шапке
    */
   readonly footerQuestionsLink: Locator;
+  /**
+   * @summary Элементы вакансий(текстовые) в меню
+   */
+  readonly vacanciesMenuItem: Locator;
+  readonly vacanciesMenu: Locator;
+  /**
+   * @summary кнопка закрытия меню с вакансиями
+   */
+  readonly buttonCloseMenu: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.expectedTitle = "Создавайте Финтех с нуля";
     this.headerLogoLink = page.locator(CommonLocators.HEADER_LOGO_LINK);
     this.footerQuestionsLink = page.locator(CommonLocators.FOOTER_LOGO_LINK);
+
+    this.vacanciesMenuItem = this.locator(CommonLocators.VACANCIES_MENU_ITEM);
+    this.vacanciesMenu = this.locator(CommonLocators.VACANCIES_MENU);
+    this.buttonCloseMenu = this.locator(CommonLocators.BUTTON_CLOSE_MENU);
   }
 
   /**
