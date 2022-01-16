@@ -9,7 +9,7 @@ const config: PlaywrightTestConfig = {
   testDir: './specs',
 
   /* Maximum time one test can run for. Default 30*/
-  timeout: 10 * 1000,
+  timeout: 30 * 1000,
 
   expect: {
 
@@ -17,7 +17,7 @@ const config: PlaywrightTestConfig = {
      * Maximum time expect() should wait for the condition to be met. Default 5000
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 3000
+    timeout: 5000
   },
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -31,79 +31,36 @@ const config: PlaywrightTestConfig = {
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-
-    /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
-    actionTimeout: 0,
-
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.BASEURL,
     screenshot: 'only-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    viewport: { width: 1920, height: 1080 },
+    trace: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-
-      /* Project-specific settings. */
+      name: 'Desktop Google Chrome',
       use: {
-        ...devices['Desktop Chrome'],
+        browserName: 'chromium',
+        channel: 'chrome',
       },
     },
 
     {
-      name: 'firefox',
+      name: 'Desktop Firefox',
       use: {
-        ...devices['Desktop Firefox'],
+        browserName: 'firefox',
       },
     },
 
     {
-      name: 'webkit',
+      name: 'Desktop Safari',
       use: {
-        ...devices['Desktop Safari'],
+        browserName: 'webkit',
       },
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: {
-    //     ...devices['Pixel 5'],
-    //   },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: {
-    //     ...devices['iPhone 12'],
-    //   },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: {
-    //     channel: 'msedge',
-    //   },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: {
-    //     channel: 'chrome',
-    //   },
-    // },
   ],
-
-  /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  // outputDir: 'test-results/',
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   port: 3000,
-  // },
 };
 export default config;
