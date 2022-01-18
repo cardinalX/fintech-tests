@@ -21,8 +21,7 @@ export class VacancyPage extends BasePage {
     this.buttonMoreVacanciesMenu = this.locator(
       'bg-accent:has-text("Еще вакансии")'
     );
-    this.buttonMute = this.buttonRespondVacancy.locator(
-      "//preceding-sibling::button"
-    );
+    this.buttonRespondVacancy = this.locator('//button/following-sibling::button[text() = "Откликнуться"]');
+    this.buttonMute = this.buttonRespondVacancy.locator("//preceding-sibling::button");
   }
 }
