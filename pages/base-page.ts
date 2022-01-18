@@ -30,12 +30,32 @@ export abstract class BasePage {
   /**
    * @summary Элементы вакансий(текстовые) в меню
    */
-  readonly vacanciesMenuItem: Locator;
-  readonly vacanciesMenu: Locator;
+  readonly vacanciesMenuItems: Locator;
+  readonly vacanciesMenuContainer: Locator;
   /**
    * @summary кнопка закрытия меню с вакансиями
    */
   readonly buttonCloseMenu: Locator;
+
+  /**
+   * @summary Первый блок c основной инфой
+   */
+  readonly firstBlock: Locator;
+  /**
+   * @summary Заголовок первого блока
+   */
+  readonly firstBlockHeader: Locator;
+
+  // В ближайших версиях Playwright будут фильтры и таких извращений не придется делать насколько понимаю.
+  /**
+   * @summary Возвращает локатор - ссылку на вакансию в Основном блоке
+   * @param href url нужной вакансии, по которому происходит поиск
+   */
+  vacanciesMenuItemByHref(href: string): Locator {
+    return this.vacanciesMenuContainer
+      .locator(`a[href="${href}"]`)
+      .locator(CommonLocators.VACANCIES_ITEM);
+  }
 
   constructor(page: Page) {
     this.page = page;
@@ -43,19 +63,24 @@ export abstract class BasePage {
     this.headerLogoLink = page.locator(CommonLocators.HEADER_LOGO_LINK);
     this.footerQuestionsLink = page.locator(CommonLocators.FOOTER_LOGO_LINK);
 
-    this.vacanciesMenuItem = this.locator(CommonLocators.VACANCIES_MENU_ITEM);
-    this.vacanciesMenu = this.locator(CommonLocators.VACANCIES_MENU);
+    this.vacanciesMenuContainer = this.locator(CommonLocators.VACANCIES_MENU);
+    this.vacanciesMenuItems = this.vacanciesMenuContainer.locator(
+      CommonLocators.VACANCIES_LINK_ITEMS
+    );
     this.buttonCloseMenu = this.locator(CommonLocators.BUTTON_CLOSE_MENU);
+    this.firstBlock = this.locator(CommonLocators.FIRST_BLOCK);
+    this.firstBlockHeader = this.firstBlock.locator("h1");
   }
 
   /**
    * @summary Переход на страницу данного класса.
    * @description URL составляется из baseURL(playwright.config.ts) + PATHNAME(из текущего класса)
    */
-  async goto(option?: {
+  async goto(options?: {
     waitUntil?: "load" | "domcontentloaded" | "networkidle" | "commit";
+    timeout?: number;
   }): Promise<void> {
-    await this.page.goto(this.PATHNAME, option);
+    await this.page.goto(this.PATHNAME, options);
   }
 
   /**
@@ -92,71 +117,60 @@ export abstract class BasePage {
   async clickLogoAndCheckPageResponse(context: BrowserContext): Promise<void> {
     const expectedURL =
       "https://yandex.ru/jobs/services/finances/?utm_source=finpromoland";
-    let pageYandexJobs: Page;
-    let responsePageYandex: Response;
-    await test.step(`Нажатие на логотип "Яндекс" в шапке`, async () => {
-      [pageYandexJobs, responsePageYandex] = await Promise.all([
+    const stepDesc = 'логотип "Яндекс" в шапке';
+    await this.clickAndCheckNewPageResponse(context, expectedURL, this.headerLogoLink, stepDesc);
+  }
+  /**
+   * @summary Нажатие на ссылку для вопросов в подвале страницы и проверка открытия новой вкладки с формой.
+   * Проверяется открытый в новой вкладке url и HTTP ответ сервера.
+   * @param context объект текущего браузерного контекста
+   */
+   async clickFooterQuestionAndCheckPageResponse(
+    context: BrowserContext
+  ): Promise<void> {
+    const expectedURL =
+      "https://forms.yandex.ru/surveys/10033130.5b4b1762a8b370cdbbc12efd40b9527298c8f28e/";
+    const stepDesc = 'ссылку для вопросов в подвале страницы';
+    await this.clickAndCheckNewPageResponse(context, expectedURL, this.footerQuestionsLink, stepDesc);
+  }
+
+  /**
+   * @summary Нажатие на переданный локатор и проверка открытия новой вкладки.
+   * Проверяется открытый в новой вкладке url и HTTP ответ сервера.
+   * @param context объект текущего браузерного контекста
+   * @param locator элемент на который нажимаем
+   * @param stepDescription Описание куда нажимаем, которое будет выведено в шаге.
+   */
+  async clickAndCheckNewPageResponse(
+    context: BrowserContext,
+    expectedURL: string,
+    locator: Locator,
+    stepDescription: string,
+  ): Promise<void> {
+    let newPage: Page;
+    let responseForExpectedUrl: Response;
+    await test.step("Нажатие на " + stepDescription, async () => {
+      [newPage, responseForExpectedUrl] = await Promise.all([
         context.waitForEvent("page"),
         context.waitForEvent(
           "response",
           (response) => response.url() === expectedURL
         ),
-        this.headerLogoLink.click(),
+        locator.click(),
       ]);
     });
 
     await test.step(
       `Проверка, что открылся верный URL=${expectedURL} в новой вкладке`,
       async () => {
-        await expect(pageYandexJobs).toHaveURL(expectedURL);
+        await expect(newPage).toHaveURL(expectedURL);
       }
     );
 
     await test.step(
       "Проверка, что в новой вкладке ответ HTTP был с кодом 200-299",
       async () => {
-        expect(responsePageYandex.ok()).toEqual(true);
-      }
-    );
-  }
-
-  /**
-   * @summary Нажатие на ссылку для вопросов в подвале страницы и проверка открытия новой вкладки с формой.
-   * Проверяется открытый url и HTTP ответ сервера.
-   * @param context объект текущего браузерного контекста
-   */
-  async clickFooterQuestionAndCheckPageResponse(
-    context: BrowserContext
-  ): Promise<void> {
-    const expectedURL =
-      "https://forms.yandex.ru/surveys/10033130.5b4b1762a8b370cdbbc12efd40b9527298c8f28e/";
-    let pageFormForQuestions: Page;
-    let responsePageForm: Response;
-    await test.step(
-      `Нажатие на ссылку для вопросов в подвале страницы`,
-      async () => {
-        [pageFormForQuestions, responsePageForm] = await Promise.all([
-          context.waitForEvent("page"),
-          context.waitForEvent(
-            "response",
-            (response) => response.url() === expectedURL
-          ),
-          this.footerQuestionsLink.click(),
-        ]);
-      }
-    );
-
-    await test.step(
-      `Проверка, что открылся верный URL=${expectedURL} в новой вкладке`,
-      async () => {
-        await expect(pageFormForQuestions).toHaveURL(expectedURL);
-      }
-    );
-
-    await test.step(
-      "Проверка, что в новой вкладке ответ HTTP был с кодом 200-299",
-      async () => {
-        expect(responsePageForm.ok()).toEqual(true);
+        expect(responseForExpectedUrl.ok()).toEqual(true);
       }
     );
   }
