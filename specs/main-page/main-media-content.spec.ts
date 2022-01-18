@@ -1,5 +1,5 @@
-import { test, expect, Page, Response } from "@playwright/test";
-import { MainPage } from "../pages/main-page";
+import { test, expect } from "@playwright/test";
+import { MainPage } from "../../pages/main-page";
 
 test.describe('Медиаконтент @media', async () => {
   test("Главная страница. Вкл звука нажатием на кнопку @unmute", async ({
