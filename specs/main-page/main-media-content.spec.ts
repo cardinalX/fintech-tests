@@ -16,9 +16,9 @@ test.describe('Медиаконтент @media', async () => {
     });
   });
 
-  test("Главная страница. Проверка авто-воспроизведения видео @autoplay", async ({ page }) => {
+  test("Главная страница. Проверка авто-воспроизведения видео @autoplay", async ({ mainPage }) => {
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
-      expect(await page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
+      expect(await mainPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
     });
   });
 
