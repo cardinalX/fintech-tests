@@ -55,6 +55,7 @@ export class VacancyPage extends BasePage {
 
   constructor(page: Page, pathname = '') {
     super(page);
+    this.buttonGoToMain = this.locator('header [data-ref="vacancy-btn-home"]');
     this.buttonMoreVacanciesMenu = this.locator('section:has-text("Еще вакансии")');
     this.buttonRespondVacancy = this.locator('//button/following-sibling::button[text() = "Откликнуться"]');
     this.buttonMute = this.buttonRespondVacancy.locator("//preceding-sibling::button");

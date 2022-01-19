@@ -36,7 +36,7 @@ test.describe('Страница вакансии Автоматизация те
     );
   });
 
-  test("Открытие меню вакансий и переход по первой вакансии @x", async ({
+  test("Открытие меню вакансий и переход на вакансию Функциональное тестирование", async ({
     page,
     baseURL
   }) => {
@@ -48,7 +48,7 @@ test.describe('Страница вакансии Автоматизация те
       await vacancyPage.buttonMoreVacanciesMenu.click();
     });
     await test.step('Нажимаем на вакансию "Функциональное тестирование" из появившегося меню', async () => {
-      await vacancyPage.vacanciesMenuItemByHref(baseURL + '/manual-test').first().click();
+      await vacancyPage.vacanciesMenuItemByHref(baseURL + '/manual-test').click();
     });
 
     await test.step('Проверка, что заголовок соответствует открываемой вакансии', async () => {
