@@ -28,8 +28,8 @@ test.describe("Список вакансий в блоке @list-vacancies", asy
     });
   });
 
-  test('Переход на первую вакансию из блока со списком вакансий', async ({ mainPage }) => {
-    await mainPage.linksVacancyInBlock.first().click();
+  test('Переход на вторую вакансию из блока со списком вакансий', async ({ mainPage }) => {
+    await mainPage.linksVacancyInBlock.nth(1).click();
     const vacancyPage = new VacancyPage(mainPage.page);
     await test.step('Проверка, что URL поменялся', async () => {
       await vacancyPage.page.waitForURL('**://**\/**');

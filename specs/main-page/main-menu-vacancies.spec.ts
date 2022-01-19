@@ -59,14 +59,14 @@ test.describe("Меню с вакансиями @menu", async () => {
     });
   });
 
-  test("Открытие меню вакансий и переход по первой вакансии", async ({
+  test("Открытие меню вакансий и переход по второй вакансии", async ({
     mainPage,
   }) => {
     await test.step('Открытие меню по кнопке "Наши вакансии"', async () => {
       await mainPage.buttonVacanciesMenu.click();
     });
     await test.step("Нажимаем на первую вакансию из появившегося меню", async () => {
-      await mainPage.vacanciesMenuItems.first().click();
+      await mainPage.vacanciesMenuItems.nth(1).click();
     });
     const vacancyPage = new VacancyPage(mainPage.page);
 
