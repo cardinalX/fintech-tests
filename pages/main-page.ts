@@ -13,10 +13,6 @@ export class MainPage extends BasePage {
    */
   readonly buttonMute: Locator;
   /**
-   * @summary Описания Основных блоков с инфой. "что ждет", "что предлагаем"
-   */
-  readonly blockText: Locator;
-  /**
    * @summary Заголовки Основных блоков с инфой. "что ждет", "что предлагаем"
    */
   readonly blockHeader2: Locator;
@@ -44,7 +40,6 @@ export class MainPage extends BasePage {
     super(page);
     this.buttonVacanciesMenu = this.locator(CommonLocators.BUTTON_VACANCIES_MENU);
     this.buttonMute = this.buttonVacanciesMenu.locator('..').locator('//following-sibling::button');
-    this.blockText = this.locator(CommonLocators.BLOCK_TEXT);
     this.block = this.locator('.home-block');
     this.blockHeader2 = this.block.locator(CommonLocators.BLOCK_H2);
 

@@ -46,6 +46,11 @@ export abstract class BasePage {
    */
   readonly firstBlockHeader: Locator;
 
+  /**
+   * @summary Блоки с текстом
+   */
+  readonly blockText: Locator;
+
   // В ближайших версиях Playwright будут фильтры и таких извращений не придется делать насколько понимаю.
   /**
    * @summary Возвращает локатор - ссылку на вакансию в Основном блоке
@@ -70,6 +75,7 @@ export abstract class BasePage {
     this.buttonCloseMenu = this.locator(CommonLocators.BUTTON_CLOSE_MENU);
     this.firstBlock = this.locator(CommonLocators.FIRST_BLOCK);
     this.firstBlockHeader = this.firstBlock.locator("h1");
+    this.blockText = this.locator(CommonLocators.BLOCK_TEXT);
   }
 
   /**
