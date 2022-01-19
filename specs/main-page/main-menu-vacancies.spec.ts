@@ -2,6 +2,7 @@ import { expect, Page, Response } from "@playwright/test";
 import { MainPage } from "../../pages/main-page";
 import listVacancies from "../../data/listVacancies.json";
 import { test } from "../../fixtures/main-fixture";
+import { VacancyPage } from "../../pages/vacancy-page";
 
 test.describe("Меню с вакансиями @menu", async () => {
 
@@ -37,15 +38,52 @@ test.describe("Меню с вакансиями @menu", async () => {
   });
 
   test('Открытие меню вакансий и переход на страницу вакансии "Автоматизация тестирования"', async ({ mainPage, baseURL }) => {
-    await mainPage.buttonVacanciesMenu.click();
-    await mainPage.vacanciesMenuItemByHref(baseURL + "/auto-test").click();
-    // TODO: проверки overview страницы с Вакансиями
+    const vacancyPathname = '/auto-test'
+    const vacancyURL = baseURL + vacancyPathname;
+
+    await test.step('Открытие меню по кнопке "Наши вакансии"', async () => {
+      await mainPage.buttonVacanciesMenu.click();
+    });
+    await test.step('Нажимаем на нужную вакансию в появившемся меню', async () => {
+      await mainPage.vacanciesMenuItemByHref(vacancyURL).click();
+    });
+
+    const vacancyPage = new VacancyPage(mainPage.page, vacancyPathname);
+    await test.step('Проверка видимости Заголовков для блоков с основной инфой', async () => {
+      await vacancyPage.shouldBeVisibleBlockHeaders();
+    });
+    await test.step('Проверка видимости блоков с текстом', async () => {
+      await vacancyPage.shouldBeVisibleTextBlocks();
+    });
+    await test.step('Проверка видимости Описания к задаче', async () => {
+      await expect(vacancyPage.taskDescription).toBeVisible();
+    });
+    await test.step('Проверка видимости Условия/кода задачи', async () => {
+      await expect(vacancyPage.taskCodeCondition).toBeVisible();
+    });
   });
 
   test('Открытие меню вакансий и переход по первой вакансии', async ({ mainPage }) => {
-    await mainPage.buttonVacanciesMenu.click();
-    await mainPage.vacanciesMenuItems.first().click();
-    // TODO: проверки overview страницы с Вакансиями
+    await test.step('Открытие меню по кнопке "Наши вакансии"', async () => {
+      await mainPage.buttonVacanciesMenu.click();
+    });
+    await test.step('Нажимаем на первую вакансию из появившегося меню', async () => {
+      await mainPage.vacanciesMenuItems.first().click();
+    });
+
+    const vacancyPage = new VacancyPage(mainPage.page);
+    await test.step('Проверка видимости Заголовков для блоков с основной инфой', async () => {
+      await vacancyPage.shouldBeVisibleBlockHeaders();
+    });
+    await test.step('Проверка видимости блоков с текстом', async () => {
+      await vacancyPage.shouldBeVisibleTextBlocks();
+    });
+    await test.step('Проверка видимости Описания к задаче', async () => {
+      await expect(vacancyPage.taskDescription).toBeVisible();
+    });
+    await test.step('Проверка видимости Условия/кода задачи', async () => {
+      await expect(vacancyPage.taskCodeCondition).toBeVisible();
+    });
   });
 
   test('Открытие меню вакансий и переход по последней ссылке "Другие вакансии"', async ({ mainPage, context }) => {

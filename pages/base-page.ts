@@ -107,12 +107,12 @@ export abstract class BasePage {
 
   /**
    * @summary Проверка на соответствие открытого URL с URL данной страницы.
-   * Ожидает некоторое время(дефолтное), совпадения URL.
+   * Ожидает некоторое время(дефолтное), чтобы URL совпал и страница загрузилась.
    * @param baseURL значение baseURL, можно получить из теста. Хранится в playwright.config.ts
    */
   async shouldBeCorrectUrl(baseURL: string): Promise<void> {
     const expectedURL = new URL(this.PATHNAME, baseURL).href;
-    await expect(this.page).toHaveURL(expectedURL);
+    await this.page.waitForURL(expectedURL, { timeout: 15, waitUntil: "domcontentloaded" });
   }
 
   /**

@@ -1,18 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { MainPage } from "../../pages/main-page";
+import { test } from "../../fixtures/main-fixture";
 
 test.describe('Медиаконтент @media', async () => {
-  test("Главная страница. Вкл звука нажатием на кнопку @unmute", async ({
-    page,
-  }) => {
-    const mainPage = new MainPage(page);
-
-    await test.step("Открытие главной страницы", async () => {
-      await mainPage.goto();
-    });
-
+  test("Главная страница. Вкл звука нажатием на кнопку @unmute", async ({ mainPage }) => {
     await test.step("Проверка, что в видео отключен звук (до нажатия кнопки)", async () => {
-      expect(await page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeTruthy();
+      expect(await mainPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeTruthy();
     });
 
     await test.step("Нажатие на кнопку Unmute", async () => {
@@ -20,19 +13,11 @@ test.describe('Медиаконтент @media', async () => {
     });
 
     await test.step("Проверка, чтобы в видео включился звук", async () => {
-      expect(await page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeFalsy();
+      expect(await mainPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeFalsy();
     });
   });
 
-  test("Главная страница. Проверка авто-воспроизведения видео @autoplay", async ({
-    page,
-  }) => {
-    const mainPage = new MainPage(page);
-
-    await test.step("Открытие главной страницы", async () => {
-      await mainPage.goto();
-    });
-
+  test("Главная страница. Проверка авто-воспроизведения видео @autoplay", async ({ page }) => {
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
       expect(await page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
     });
