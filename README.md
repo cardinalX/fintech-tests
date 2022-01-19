@@ -7,11 +7,11 @@
 
 Находясь в директории корня проекта выполняем
 
-`RUN npm install`
+`npm install`
 
 # Install Playwright supported browsers
 
-`RUN npx playwright install`
+`npx playwright install`
 
 # Конфигурация
 
