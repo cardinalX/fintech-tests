@@ -37,7 +37,7 @@ test.describe('Медиаконтент на странице вакансии "
     });
   });
 
-  test("Проверка авто-воспроизведения видео и звука после перехода с главной @autoplay", async ({
+  test("Проверка авто-воспроизведения видео и звука после перехода с главной @autoplay @unmute", async ({
     mainPage,
     baseURL
   }) => {
@@ -47,7 +47,9 @@ test.describe('Медиаконтент на странице вакансии "
     });
 
     const vacancyPage = new VacancyPage(mainPage.page, vacancyPathname);
-    await vacancyPage.page.waitForURL(vacancyURL, { waitUntil: "networkidle" });
+    await vacancyPage.page.waitForURL(vacancyURL);
+    // Не успел разобраться, почему видео не сразу включается, поэтому такое ожидание
+    await vacancyPage.page.waitForTimeout(1000);
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
       expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
     });
