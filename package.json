@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test --config=playwright.config.ts",
-    "clean": "rimraf allure-results test-results results playwright-report"
+    "clean": "rimraf allure-results test-results results playwright-report",
+    "docker-run": "docker run --name ui_tests -v $(pwd)/allure-results:/tester/allure-results -v $(pwd)/playwright-report:/tester/playwright-report --rm ui_tests",
+    "docker-rm": "docker rm -f ui_tests || true"
   },
   "repository": {
     "type": "git",
