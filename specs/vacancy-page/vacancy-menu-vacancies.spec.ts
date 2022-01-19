@@ -63,6 +63,9 @@ test.describe('Страница вакансии Автоматизация те
     await test.step("Проверка видимости Описания к задаче", async () => {
       await expect(vacancyPage.taskDescription).toBeVisible();
     });
+    await test.step("Проверка видимости Условия/кода задачи", async () => {
+      await expect(vacancyPage.taskCondition).toBeVisible();
+    });
   });
 
   test('Открытие меню вакансий и переход на страницу "Другие вакансии"', async ({

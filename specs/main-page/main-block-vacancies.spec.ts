@@ -28,7 +28,8 @@ test.describe("Список вакансий в блоке @list-vacancies", asy
     });
   });
 
-  test('Переход на вакансию Функциональное тестирование из блока со списком вакансий', async ({ mainPage, baseURL }) => {
+  test('Переход на вакансию Функциональное тестирование из блока со списком вакансий', async (
+    { mainPage, baseURL }) => {
     await test.step('Нажимаем на вакансию "Функциональное тестирование" из появившегося меню', async () => {
       await mainPage.linkVacancyInBlockByHref(baseURL + '/manual-test').click();
     });
@@ -51,11 +52,12 @@ test.describe("Список вакансий в блоке @list-vacancies", asy
       await expect(vacancyPage.taskDescription).toBeVisible();
     });
     await test.step('Проверка видимости Условия/кода задачи', async () => {
-      await expect(vacancyPage.taskCodeCondition).toBeVisible();
+      await expect(vacancyPage.taskCondition).toBeVisible();
     });
   });
 
-  test('Переход по ссылке "Другие вакансии" из блока со списком вакансий', async ({ mainPage, context }) => {
+  test('Переход по ссылке "Другие вакансии" из блока со списком вакансий', async (
+    { mainPage, context }) => {
     const expectedURL =
       "https://yandex.ru/jobs/services/finances/?utm_source=finpromoland";
     const stepDesc = 'последнюю ссылку в блоке со списком вакансий';

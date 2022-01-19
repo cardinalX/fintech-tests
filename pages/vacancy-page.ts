@@ -25,9 +25,13 @@ export class VacancyPage extends BasePage {
    */
   readonly block: Locator;
   /**
-   * @summary Условие задачи, возможно код.
+   * @summary Код к задаче, условие
    */
   readonly taskCodeCondition: Locator;
+  /**
+   * @summary Код к задаче, условие
+   */
+  readonly taskCondition: Locator;
   /**
    * @summary Описание задачи
    */
@@ -62,6 +66,7 @@ export class VacancyPage extends BasePage {
     this.block = this.locator('.vacancy-block');
     this.blockHeader2 = this.block.locator(CommonLocators.BLOCK_H2);
     this.taskCodeCondition = this.block.locator('pre');
+    this.taskCondition = this.block.locator('.break-all');
     this.taskDescription = this.locator(VacancyLocators.TASK_DESCRIPTION);
     this.answerInput = this.block.locator('input');
     this.buttonSendAnswer = this.answerInput.locator('//following-sibling::div');

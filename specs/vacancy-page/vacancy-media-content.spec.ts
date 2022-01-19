@@ -3,7 +3,7 @@ import { VacancyPage } from "../../pages/vacancy-page";
 import { test } from "../../fixtures/main-fixture";
 
 test.describe('Медиаконтент на странице вакансии "Автоматизация тестирования" @media', async () => {
-  const vacancyPathname = 'auto-test';
+  const vacancyPathname = '/auto-test';
 
   test("Вкл звука нажатием на кнопку @unmute", async ({ page }) => {
     const vacancyPage = new VacancyPage(page, vacancyPathname);
@@ -38,10 +38,16 @@ test.describe('Медиаконтент на странице вакансии "
   });
 
   test("Проверка авто-воспроизведения видео и звука после перехода с главной @autoplay", async ({
-    mainPage
+    mainPage,
+    baseURL
   }) => {
-    const vacancyPage = new VacancyPage(mainPage.page, vacancyPathname);
+    const vacancyURL = baseURL + vacancyPathname;
+    await test.step('Нажимаем на первую вакансию в блоке с вакансиями', async () => {
+      await mainPage.linkVacancyInBlockByHref(vacancyURL).click();
+    });
 
+    const vacancyPage = new VacancyPage(mainPage.page, vacancyPathname);
+    await vacancyPage.page.waitForURL(vacancyURL, { waitUntil: "networkidle" });
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
       expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
     });

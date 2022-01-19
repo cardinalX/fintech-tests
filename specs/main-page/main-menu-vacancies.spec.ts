@@ -66,10 +66,11 @@ test.describe("Меню с вакансиями @menu", async () => {
     await test.step('Открытие меню по кнопке "Наши вакансии"', async () => {
       await mainPage.buttonVacanciesMenu.click();
     });
-    await test.step('Нажимаем на вакансию "Функциональное тестирование" из появившегося меню', async () => {
-      await vacancyPage.vacanciesMenuItemByHref(baseURL + '/manual-test').click();
-    });
+    const vacancyURL = baseURL + '/manual-test';
     const vacancyPage = new VacancyPage(mainPage.page);
+    await test.step('Нажимаем на вакансию "Функциональное тестирование" из появившегося меню', async () => {
+      await vacancyPage.vacanciesMenuItemByHref(vacancyURL).click();
+    });
 
     await test.step("Проверка видимости Заголовков для блоков с основной инфой", async () => {
       await vacancyPage.shouldBeVisibleBlockHeaders();
@@ -81,7 +82,7 @@ test.describe("Меню с вакансиями @menu", async () => {
       await expect(vacancyPage.taskDescription).toBeVisible();
     });
     await test.step("Проверка видимости Условия/кода задачи", async () => {
-      await expect(vacancyPage.taskCodeCondition).toBeVisible();
+      await expect(vacancyPage.taskCondition).toBeVisible();
     });
   });
 
