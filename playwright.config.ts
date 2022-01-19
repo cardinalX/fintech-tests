@@ -7,8 +7,8 @@ require('dotenv').config({ path: __dirname + '/.env' });
 const config: PlaywrightTestConfig = {
 
   testDir: './specs',
-  // при workers > 3 для этого сайта тесты гоняются медленнее(вероятно из-за GPU и видео)
-  workers: 3,
+  // отключил пока параллелизм. Для этого сайта тесты гоняются медленнее(вероятно из-за GPU и видео) и менее стабильно.
+  workers: 1,
 
   /* Maximum time one test can run for. Default 30*/
   timeout: 40 * 1000,
