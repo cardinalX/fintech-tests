@@ -1,5 +1,4 @@
-import { expect, Page, Response } from "@playwright/test";
-import { MainPage } from "../../pages/main-page";
+import { expect } from "@playwright/test";
 import listVacancies from "../../data/listVacancies.json";
 import { test } from "../../fixtures/main-fixture";
 import { VacancyPage } from "../../pages/vacancy-page";

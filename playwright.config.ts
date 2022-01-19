@@ -14,7 +14,6 @@ const config: PlaywrightTestConfig = {
   timeout: 40 * 1000,
 
   expect: {
-
     /**
      * Maximum time expect() should wait for the condition to be met. Default 5000
      * For example in `await expect(locator).toHaveText();`

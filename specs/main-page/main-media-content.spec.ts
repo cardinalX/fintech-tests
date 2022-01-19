@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { MainPage } from "../../pages/main-page";
 import { test } from "../../fixtures/main-fixture";
 
 test.describe('Медиаконтент @media', async () => {

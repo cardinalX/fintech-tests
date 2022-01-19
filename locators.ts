@@ -32,3 +32,9 @@ export enum CommonLocators {
   FIRST_BLOCK = '//section[contains(@class, "block-first")]',
 }
 
+export enum VacancyLocators {
+  /**
+   * @description Описание задачи
+   */
+  TASK_DESCRIPTION = '//h2/following-sibling::div/p[2]',
+}

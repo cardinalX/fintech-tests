@@ -37,7 +37,9 @@ test.describe('Медиаконтент на странице вакансии "
     });
   });
 
-  test("Проверка авто-воспроизведения видео и звука после перехода с главной @autoplay", async ({ mainPage }) => {
+  test("Проверка авто-воспроизведения видео и звука после перехода с главной @autoplay", async ({
+    mainPage
+  }) => {
     const vacancyPage = new VacancyPage(mainPage.page, vacancyPathname);
 
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {

@@ -1,6 +1,6 @@
 import { BasePage } from "./base-page";
 import { expect, Locator, Page } from "@playwright/test";
-import { CommonLocators } from "../locators";
+import { CommonLocators, VacancyLocators } from "../locators";
 
 export class VacancyPage extends BasePage {
   PATHNAME: string;
@@ -25,7 +25,7 @@ export class VacancyPage extends BasePage {
    */
   readonly block: Locator;
   /**
-   * @summary Условие задачи
+   * @summary Условие задачи, возможно код.
    */
   readonly taskCodeCondition: Locator;
   /**
@@ -44,18 +44,28 @@ export class VacancyPage extends BasePage {
    * @summary Кнопка для отправки ответа
    */
   readonly buttonGoToMain: Locator;
+  /**
+   * @summary Сообщение о неверном результате ответа
+   */
+     readonly wrongAnswer: Locator;
+  /**
+   * @summary Сообщение о верно результате и перенаправлении
+   */
+  readonly successAnswer: Locator;
 
   constructor(page: Page, pathname = '') {
     super(page);
-    this.buttonMoreVacanciesMenu = this.locator('bg-accent:has-text("Еще вакансии")');
+    this.buttonMoreVacanciesMenu = this.locator('section:has-text("Еще вакансии")');
     this.buttonRespondVacancy = this.locator('//button/following-sibling::button[text() = "Откликнуться"]');
     this.buttonMute = this.buttonRespondVacancy.locator("//preceding-sibling::button");
     this.block = this.locator('.vacancy-block');
     this.blockHeader2 = this.block.locator(CommonLocators.BLOCK_H2);
     this.taskCodeCondition = this.block.locator('pre');
-    this.taskDescription = this.locator('//h2/following-sibling::div/p[2]');
+    this.taskDescription = this.locator(VacancyLocators.TASK_DESCRIPTION);
     this.answerInput = this.block.locator('input');
     this.buttonSendAnswer = this.answerInput.locator('//following-sibling::div');
+    this.wrongAnswer = this.locator('[x-show="wrong"]');
+    this.successAnswer = this.locator('.captcha-success');
     this.PATHNAME = pathname;
   }
 
