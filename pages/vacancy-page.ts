@@ -53,7 +53,7 @@ export class VacancyPage extends BasePage {
     this.block = this.locator('.vacancy-block');
     this.blockHeader2 = this.block.locator(CommonLocators.BLOCK_H2);
     this.taskCodeCondition = this.block.locator('pre');
-    this.taskDescription = this.locator('//h2/following-sibling::div/p[2]')
+    this.taskDescription = this.locator('//h2/following-sibling::div/p[2]');
     this.answerInput = this.block.locator('input');
     this.buttonSendAnswer = this.answerInput.locator('//following-sibling::div');
     this.PATHNAME = pathname;
@@ -68,9 +68,9 @@ export class VacancyPage extends BasePage {
     }
   }
   /**
-   * @summary Проверка видимости всех заголовков с текстом
+   * @summary Проверка видимости всех Заголовков для блоков с основной инфой
    */
-  async shouldBeVisibleHeaders(): Promise<void> {
+  async shouldBeVisibleBlockHeaders(): Promise<void> {
     for (let index = 0; index < 4; index++) {
       await this.blockHeader2.nth(index).isVisible();
     }
