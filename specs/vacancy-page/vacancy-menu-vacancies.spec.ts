@@ -38,27 +38,22 @@ test.describe('Страница вакансии Автоматизация те
 
   test("Открытие меню вакансий и переход по первой вакансии @x", async ({
     page,
+    baseURL
   }) => {
     const vacancyPage = new VacancyPage(page, vacancyPathname);
     await test.step("Открытие страницы вакансии Автоматизация тестирования", async () => {
       await vacancyPage.goto();
     });
-
     await test.step('Открытие меню по кнопке "Наши вакансии"', async () => {
       await vacancyPage.buttonMoreVacanciesMenu.click();
     });
-
-    let responsePage: Response;
-    await test.step("Нажимаем на первую вакансию из появившегося меню", async () => {
-      [responsePage] = await Promise.all([
-        vacancyPage.page.waitForNavigation(),
-        vacancyPage.vacanciesMenuItems.first().click(),
-      ]);
-    });
-    await test.step('Проверка, что после клика было перенаправление и 200-299 код ответа.', async () => {
-      expect(responsePage.ok()).toBeTruthy();
+    await test.step('Нажимаем на вакансию "Функциональное тестирование" из появившегося меню', async () => {
+      await vacancyPage.vacanciesMenuItemByHref(baseURL + '/manual-test').first().click();
     });
 
+    await test.step('Проверка, что заголовок соответствует открываемой вакансии', async () => {
+      await expect(vacancyPage.firstBlockHeader).toContainText("Инженер по функциональному тестированию");
+    });
     await test.step("Проверка видимости Заголовков для блоков с основной инфой", async () => {
       await vacancyPage.shouldBeVisibleBlockHeaders();
     });
@@ -67,9 +62,6 @@ test.describe('Страница вакансии Автоматизация те
     });
     await test.step("Проверка видимости Описания к задаче", async () => {
       await expect(vacancyPage.taskDescription).toBeVisible();
-    });
-    await test.step("Проверка видимости Условия/кода задачи", async () => {
-      await expect(vacancyPage.taskCodeCondition).toBeVisible();
     });
   });
 
