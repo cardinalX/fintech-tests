@@ -43,7 +43,7 @@ test.describe('Медиаконтент на странице вакансии "
     const vacancyPage = new VacancyPage(mainPage.page, vacancyPathname);
 
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
-      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeTruthy();
+      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
     });
     await test.step("Проверка, что Звук автоматически воспроизводится", async () => {
       expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeFalsy();
