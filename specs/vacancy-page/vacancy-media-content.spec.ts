@@ -1,6 +1,7 @@
 import { expect } from "@playwright/test";
 import { VacancyPage } from "../../pages/vacancy-page";
 import { test } from "../../fixtures/main-fixture";
+import { CommonLocators } from "../../locators";
 
 test.describe('Медиаконтент на странице вакансии "Автоматизация тестирования" @media', async () => {
   const vacancyPathname = '/auto-test';
@@ -13,7 +14,7 @@ test.describe('Медиаконтент на странице вакансии "
     });
 
     await test.step("Проверка, что в видео отключен звук (до нажатия кнопки)", async () => {
-      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeTruthy();
+      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>(CommonLocators.VIDEO, node => node.muted)).toBeTruthy();
     });
 
     await test.step("Нажатие на кнопку Unmute", async () => {
@@ -21,7 +22,7 @@ test.describe('Медиаконтент на странице вакансии "
     });
 
     await test.step("Проверка, чтобы в видео включился звук", async () => {
-      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeFalsy();
+      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>(CommonLocators.VIDEO, node => node.muted)).toBeFalsy();
     });
   });
 
@@ -33,7 +34,7 @@ test.describe('Медиаконтент на странице вакансии "
     });
 
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
-      expect(await page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
+      expect(await page.$eval<boolean, HTMLVideoElement>(CommonLocators.VIDEO, node => node.paused)).toBeFalsy();
     });
   });
 
@@ -51,10 +52,10 @@ test.describe('Медиаконтент на странице вакансии "
     // Не успел разобраться, почему видео не сразу включается, поэтому такое ожидание
     await vacancyPage.page.waitForTimeout(1000);
     await test.step("Проверка, что видео автоматически воспроизводится", async () => {
-      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.paused)).toBeFalsy();
+      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>(CommonLocators.VIDEO, node => node.paused)).toBeFalsy();
     });
     await test.step("Проверка, что Звук автоматически воспроизводится", async () => {
-      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>('#video', node => node.muted)).toBeFalsy();
+      expect(await vacancyPage.page.$eval<boolean, HTMLVideoElement>(CommonLocators.VIDEO, node => node.muted)).toBeFalsy();
     });
   });
 

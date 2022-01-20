@@ -30,6 +30,7 @@ export enum CommonLocators {
   BLOCK_HEADER = '.items-start',
   BLOCK_H2 = '.items-start h2',
   FIRST_BLOCK = '//section[contains(@class, "block-first")]',
+  VIDEO = '#video',
 }
 
 export enum VacancyLocators {
